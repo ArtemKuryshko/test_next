@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recipe Finder App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The **Recipe Finder App** is a Next.js application that allows users to search for recipes based on query parameters such as cuisine type and preparation time. Users can browse through the search results and view detailed information about each recipe.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. **Search Recipes**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Users can enter a recipe **query** (e.g., "pasta").
+- A dropdown allows selection of a **cuisine type** (Italian, Mexican, Chinese, etc.).
+- A numeric input enables users to specify **maximum preparation time** in minutes.
+- The **Next** button is enabled only when at least one of the three fields is filled.
+- Upon clicking **Next**, users are navigated to the `recipes` page with query parameters included in the URL.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. **Browse Recipes (Recipes Page)**
 
-## Learn More
+- Uses **server-side rendering (SSR)** to fetch recipe data.
+- Fetches data from the Spoonacular API:
+  ```
+  https://api.spoonacular.com/recipes/complexSearch?query={query}&cuisine={cuisine}&maxReadyTime={maxReadyTime}&apiKey=YOUR_API_KEY
+  ```
+- Displays a list of recipes with **title and image**.
+- Clicking a recipe redirects the user to the **Recipe Details Page**.
+- API response is cached for **1 minute** to optimize performance.
+- Implements **error handling** for API failures.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. **View Recipe Details (Recipe Details Page)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Fetches recipe details from the Spoonacular API:
+  ```
+  https://api.spoonacular.com/recipes/<recipeId>/information?apiKey=YOUR_API_KEY
+  ```
+- Displays the following details:
+  - **Recipe title**
+  - **List of ingredients**
+  - **(Optional) Preparation time, servings, summary**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. **Optimized Performance**
 
-## Deploy on Vercel
+- Caches API responses to reduce redundant requests.
+- Implements **server-side rendering (SSR)** for initial data fetch.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. **UI & Styling**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Fully styled using **Tailwind CSS**.
+- Responsive design for **mobile-first approach**.
+- Accessible design following **best practices**.
+
+## Installation & Setup
+
+### **Prerequisites**
+
+- Node.js (v16+ recommended)
+- npm or yarn
+
+### **Steps to Run the Application**
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/recipe-finder.git
+   cd recipe-finder
+   ```
+2. Install dependencies:
+   ```sh
+   npm install  # or yarn install
+   ```
+3. Create a `.env` file in the root directory and add your Spoonacular API key:
+   ```sh
+   API_KEY=your_api_key_here
+   ```
+4. Start the development server:
+   ```sh
+   npm run dev  # or yarn dev
+   ```
+5. Open your browser and go to:
+   ```
+   http://localhost:3000
+   ```
+
+## Architecture
+
+- The application follows a **modular architecture** where each component is **separated and reusable**.
+- Pages are structured using the **App Router** (Next.js 13+ with `app/` directory).
+- API calls are managed in separate **services**.
+- Components are divided into:
+  - **UI components** (select, form fields, etc.)
+  - **Page components** (search, recipes, recipe details)
+  - **services** (API calls and data fetching functions)
+- ESLint and Prettier are configured to maintain **code quality**.
+
+## Additional Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Spoonacular API Documentation](https://spoonacular.com/food-api/docs)
+
+## License
+
+This project is licensed under the **MIT License**.
